@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Mood Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .mood-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>How are you feeling today? 😊</h1>
+        <div class="mood-buttons">
+            <button type="button" data-mood="happy">😊 Happy</button>
+            <button type="button" data-mood="sad">😢 Sad</button>
+            <button type="button" data-mood="stressed">😖 Stressed</button>
+            <button type="button" data-mood="excited">🤩 Excited</button>
+        </div>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        const buttons = document.querySelectorAll(".mood-buttons button");
+        const message = document.getElementById("message");
+
+        const moodColors = {
+            happy: "#ffeb3b",
+            sad: "#90caf9",
+            stressed: "#ef9a9a",
+            excited: "#81c784"
+        };
+
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const mood = btn.dataset.mood;
+                document.body.style.backgroundColor = moodColors[mood] || "#ffffff";
+                message.textContent = `Today you're feeling ${mood}!`;
+                localStorage.setItem("mood", mood);
+            });
+        });
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedMood = localStorage.getItem("mood");
+            if (savedMood && moodColors[savedMood]) {
+                document.body.style.backgroundColor = moodColors[savedMood];
+                message.textContent = `Welcome back! Last time you felt ${savedMood}.`;
+            }
+        });
+    </script>
+</body>
+</html>
